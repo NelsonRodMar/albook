@@ -1,6 +1,7 @@
 # Albook 
 
-
+:books: Angular Website to manage you're library with Firebase from the chapter ['Créez une application complète avec Angular et Firebase'
+](https://openclassrooms.com/fr/courses/4668271-developpez-des-applications-web-avec-angular/5091266-creez-une-application-complete-avec-angular-et-firebase) on OpenClassRoom
 
 ## Development server
 

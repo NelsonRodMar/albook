@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { SigninComponent } from './auth/signin/signin.component';
@@ -14,6 +13,8 @@ import {AuthService} from './services/auth.service';
 import {BooksService} from './services/books.service';
 import {AuthGuardService} from './services/auth-guard.service';
 import {RouterModule, Routes} from '@angular/router';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatProgressSpinner} from '@angular/material';
 
 const appRoutes: Routes = [
   { path: 'auth/signup', component: SignupComponent},
@@ -33,14 +34,16 @@ const appRoutes: Routes = [
     BookListComponent,
     SingleBookComponent,
     BookFormComponent,
-    HeaderComponent
-  ],
+    HeaderComponent,
+    MatProgressSpinner
+],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule,
   ],
   providers: [
     AuthService,

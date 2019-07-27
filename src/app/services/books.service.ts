@@ -3,7 +3,7 @@ import { Book } from '../models/book.model';
 import * as firebase from 'firebase';
 import {Subject} from 'rxjs';
 import DataSnapshot = firebase.database.DataSnapshot;
-
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class BooksService {
@@ -53,6 +53,17 @@ export class BooksService {
   }
 
   removeBook(book: Book) {
+    if (book.photo) {
+      const storageRef = firebase.storage().refFromURL(book.photo);
+      storageRef.delete().then(
+        () => {
+          console.log('Photo removed !');
+        },
+        (error) => {
+          console.log('Could not removed photo : ' + error);
+        }
+      );
+    }
     const bookIndexToRemove = this.books.findIndex(
       (bookEl) => {
         if (bookEl === book) {
@@ -63,5 +74,26 @@ export class BooksService {
     this.books.splice(bookIndexToRemove, 1);
     this.saveBooks();
     this.emitBooks();
+  }
+
+  uploadFile(file: File) {
+    return new Promise(
+      (resolve, reject) => {
+        const upload = firebase.storage().ref().
+        child('images/' + uuid() + file.name).put(file);
+        upload.on(firebase.storage.TaskEvent.STATE_CHANGED,
+          () => {
+            console.log('Chargement...');
+          },
+          (error) => {
+            console.log('Erreur de chargement ' + error);
+            reject();
+          },
+          () => {
+          resolve(upload.snapshot.ref.getDownloadURL());
+          }
+        );
+      }
+    );
   }
 }

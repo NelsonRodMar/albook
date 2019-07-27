@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Book } from '../../models/book.model';
 import { BooksService } from '../../services/books.service';
 import { Router } from '@angular/router';
+import {url} from 'inspector';
+import {SelectorContext} from "@angular/compiler";
 
 @Component({
   selector: 'app-book-form',
@@ -12,6 +14,9 @@ import { Router } from '@angular/router';
 export class BookFormComponent implements OnInit {
 
   bookForm: FormGroup;
+  fileIsUploading = false;
+  fileUrl: string;
+  fileUploaded = false;
 
   constructor(private formBuilder: FormBuilder, private booksService: BooksService,
               private router: Router) { }
@@ -34,8 +39,26 @@ export class BookFormComponent implements OnInit {
     const synopsis = this.bookForm.get('synopsis').value;
     const newBook = new Book(title, author);
     newBook.synopsis = synopsis;
+    if(this.fileUrl && this.fileUrl !== '') {
+      newBook.photo = this.fileUrl;
+    }
     this.booksService.createNewBook(newBook);
     this.router.navigate(['/books']);
+  }
+
+  detectFiles(event) {
+    this.onUplaodFile(event.target.files[0]);
+  }
+
+  onUplaodFile(file: File) {
+    this.fileIsUploading = true;
+    this.booksService.uploadFile(file).then(
+      (url: string) => {
+        this.fileUrl = url;
+        this.fileIsUploading = false;
+        this.fileUploaded = true;
+      }
+    );
   }
 }
 

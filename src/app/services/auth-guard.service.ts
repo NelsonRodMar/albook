@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Router} from "@angular/router";
-import {Observable} from "rxjs";
-import * as firebase from "firebase";
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AuthGuardService {
       (resolve, reject) => {
         firebase.auth().onAuthStateChanged(
           (user) => {
-            if(user) {
+            if (user) {
               resolve(true);
             } else {
               this.router.navigate(['/auth/signin']);

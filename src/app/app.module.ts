@@ -15,6 +15,7 @@ import {AuthGuardService} from './services/auth-guard.service';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatProgressSpinner} from '@angular/material';
+import { FooterComponent } from './footer/footer.component';
 
 const appRoutes: Routes = [
   { path: 'auth/signup', component: SignupComponent},
@@ -35,7 +36,8 @@ const appRoutes: Routes = [
     SingleBookComponent,
     BookFormComponent,
     HeaderComponent,
-    MatProgressSpinner
+    MatProgressSpinner,
+    FooterComponent
 ],
   imports: [
     BrowserModule,
